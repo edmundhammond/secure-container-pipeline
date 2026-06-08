@@ -1,10 +1,11 @@
 from flask import Flask, request
 import os
+import werkzeug
 
 app = Flask(__name__)
 
 
-SECRET_API_KEY = "AIzaSyA123456789-FakeGoogleKeyForTesting"
+SECRET_API_KEY = os.environ.get("SECURE_API_KEY", "default_fallback_value")
 
 @app.route('/')
 def home():
@@ -13,10 +14,12 @@ def home():
 @app.route('/run')
 def run_command():
     
-    cmd = request.args.get('cmd', '')
+    user_input = request.args.get('cmd', '')
     
-    response = os.popen(cmd).read()
-    return f"<pre>{response}</pre>"
+    
+    safe_output = werkzeug.utils.escape(user_input)
+    
+    return f"<h1>Executing Safe Output Validation:</h1><pre>{safe_output}</pre>"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
