@@ -13,22 +13,21 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
       - name: Set up Python Runtime
         uses: actions/setup-python@v5
         with:
-          python-policy: '3.11'
+          python-version: '3.11'
 
-     
+      
       - name: Install Bandit Security Scanner
         run: pip install bandit
 
       - name: Run Bandit Source Code Scan
-      
         run: bandit -r app.py
 
-     
+      
       - name: Build Docker Image Locally
         run: docker build -t secure-web-app:latest .
 
@@ -38,7 +37,7 @@ jobs:
         with:
           image-ref: 'secure-web-app:latest'
           format: 'table'
-          exit-code: '1' 
+          exit-code: '1'
           ignore-unfixed: true
           vuln-type: 'os,library'
           severity: 'CRITICAL,HIGH'
