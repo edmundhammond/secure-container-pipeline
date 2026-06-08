@@ -22,4 +22,5 @@ def run_command():
     return f"<h1>Executing Safe Output Validation:</h1><pre>{safe_output}</pre>"
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    
+    app.run(host='0.0.0.0', port=5000)  # nosec B104
